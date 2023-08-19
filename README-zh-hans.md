@@ -1,0 +1,696 @@
+SNANDer 中文手册
+===
+
+SNANDer - 串口 Nor/nAND/Eeprom 编程器软件 (基于 CH341A)
+
+![ch341a-nextProgrammer](photos/ch341a-nextProgrammer.jpg)
+
+**依赖**
+
+* gcc/mingw-w64, wget, make, 和 libusb-1.0-dev (通过 apt 命令行工具)
+
+* debian, Ubuntu和其他使用APT包管理器的系统你可以执行以下命令安装依赖:
+
+```
+sudo apt-get install gcc wget make libusb-1.0-dev -y
+```
+
+* CentOS,SUSE,RHEL和其他使用yum包管理器的系统你可以执行以下命令安装依赖:
+
+```
+sudo yum install gcc wget make libusb-devel -y
+```
+
+* 对于MacOS 你可以使用brew来安装依赖，执行以下命令来安装:
+
+```
+brew install gcc wget make libusb -y
+```
+
+* 了解如何安装brew请访问:<https://brew.sh/>
+
+**用Linux编译**
+
+安装 gcc 和必要的工具后，编译 `SNANDer` 就像运行命令一样简单:
+
+```
+make -C src/
+```
+
+编译成功后，会在`src`文件夹中生成目标可执行文件。
+
+或者你可以选择静态编译，静态编译`snander`就像运行命令一样简单:
+
+```
+./build-for-linux.sh
+```
+
+编译成功后，会在`build`文件夹中生成目标可执行文件。
+
+**用Windows编译**
+
+安装 mingw-w64 和必要的依赖后，编译 `snander` 运行以下脚本即可一键编译:
+
+```
+./build-for-windows.sh
+```
+
+编译成功后，会在`build`文件夹中生成目标可执行文件，包括x86和x64二进制文件。
+
+**用MacOS编译**
+
+安装必要的依赖后，构建 `snander` 运行以下脚本即可一键编译:
+
+```
+./build-for-darwin.sh
+```
+
+编译成功后，会在`build`文件夹中生成目标可执行文件。
+
+**用 OpenWrt编译IPK包**
+
+首先下载`OpenWrt SDK`并解压他
+
+```
+    cd /path/to/your/sdk # 进入sdk包解压目录
+    git clone https://github.com/Droid-MAX/SNANDer package/snander
+    make menuconfig # 在“Utilities”部分中选择“SNANDer”
+    make package/snander/compile V=s
+```
+
+**用法**
+
+使用 `snander` 很简单:
+
+```
+SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc@mail.ru>
+
+  用法:
+ -h             显示帮助信息
+ -d             禁用内部 ECC(使用读写块大小 + OOB大小)
+ -o <bytes>     手动设置 OOB 大小并禁用内部 ECC（默认为0）
+ -I             忽略ECC错误（仅用于读取测试）
+ -k             跳过坏快，尝试在下一区块中读取或写入
+ -L             打印芯片支持列表
+ -i             读取芯片id信息
+ -E             选择 I2C EEPROM {24c01|24c02|24c04|24c08|24c16|24c32|24c64|24c128|24c256|24c512|24c1024}
+                选择 Microwire EEPROM {93c06|93c16|93c46|93c56|93c66|93c76|93c86|93c96} (需要 SPI-to-MW 适配器)
+                选择 SPI EEPROM 25xxx {25010|25020|25040|25080|25160|25320|25640|25128|25256|25512|251024}
+ -8             set organization 8-bit for Microwire EEPROM(默认 16-bit) and set jumper on SPI-to-MW 适配器
+ -f <addr len>  手动设置 Microwire EEPROM 地址参数 单位bit(默认自动)
+ -s <bytes>     从数据表中设置页面大小以快速写入 SPI EEPROM（默认不使用）
+ -e             擦除芯片(full 或与 -a [-l] 一起使用)
+ -l <bytes>     手动设置字长
+ -a <address>   手动设置地址
+ -w <filename>  将指定文件中的数据写入芯片
+ -r <filename>  讲读取到的数据保存到指定文件
+ -v             写入芯片并验证数据
+```
+
+范例:
+
+1. 读取闪存信息.
+
+```
+$ ./SNANDer -i
+
+SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc@mail.ru>
+
+Found programmer device: WinChipHead (WCH) - CH341A
+Device revision is 3.0.4
+spi device id: ff c2 22 c2 22 (c222c222)
+SPI NOR Flash Not Detected!
+spi_nand_probe: mfr_id = 0xc2, dev_id = 0x22
+Get Status Register 1: 0x38
+Get Status Register 2: 0x10
+Using Flash ECC.
+Detected SPI NAND Flash: MXIC MX35LF2GE4AB, Flash Size: 256 MB
+$
+```
+
+2. 完全擦除闪存并禁用内部 ECC 检查。 没有 OOB，页面大小为 2112 字节。
+
+```
+$ ./SNANDer -d -e
+
+SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc@mail.ru>
+
+Found programmer device: WinChipHead (WCH) - CH341A
+Device revision is 3.0.4
+spi device id: ff c2 22 c2 22 (c222c222)
+SPI NOR Flash Not Detected!
+spi_nand_probe: mfr_id = 0xc2, dev_id = 0x22
+Get Status Register 1: 0x00
+Get Status Register 2: 0x11
+Disable Flash ECC.
+Detected SPI NAND Flash: MXIC MX35LF2GE4AB, Flash Size: 256 MB
+ERASE:
+Set full erase chip!
+Erase addr = 0x0000000000000000, len = 0x0000000010800000
+Erase 100% [276824064] of [276824064] bytes
+Elapsed time: 3 seconds
+Status: OK
+$
+```
+
+3. 通过禁用内部 ECC 检查来写入和验证闪存。 没有 OOB，页面大小为 2112 字节。
+
+```
+$ ./SNANDer -d -v -w ecc_2Gb_2K_64_flashimage_rfb1_ac2600.bin
+
+SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc@mail.ru>
+
+Found programmer device: WinChipHead (WCH) - CH341A
+Device revision is 3.0.4
+spi device id: ff c2 22 c2 22 (c222c222)
+SPI NOR Flash Not Detected!
+spi_nand_probe: mfr_id = 0xc2, dev_id = 0x22
+Get Status Register 1: 0x00
+Get Status Register 2: 0x11
+Disable Flash ECC.
+Detected SPI NAND Flash: MXIC MX35LF2GE4AB, Flash Size: 256 MB
+WRITE:
+Write addr = 0x0000000000000000, len = 0x000000000E5A9D6F
+Written 100% [240819567] of [240819567] bytes
+Elapsed time: 4184 seconds
+Status: OK
+VERIFY:
+Read addr = 0x0000000000000000, len = 0x000000000E5A9D6F
+Read 100% [240819567] of [240819567] bytes
+Elapsed time: 2047 seconds
+Status: OK
+$
+```
+
+4. 读取 Microwire EEPROM Atmel 93C46 并保存文件。
+
+```
+$ ./SNANDer -E 93c46 -r test.bin
+
+SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc@mail.ru>
+
+Found programmer device: WinChipHead (WCH) - CH341A
+Device revision is 3.0.4
+Microwire EEPROM chip: 93c46, Size: 64 bytes, Org: 16 bits, fix addr len: Auto
+READ:
+Read addr = 0x0000000000000000, len = 0x0000000000000080
+Read_EEPROM_3wire: Set address len 6 bits
+Read 100% [64] of [64] bytes
+Read [128] bytes from [93c46] EEPROM address 0x00000000
+Elapsed time: 0 seconds
+Status: OK
+```
+
+5. 从文件写入并验证 Microwire EEPROM Atmel 93C46。
+
+```
+$ ./SNANDer -E 93c46 -w test.bin -v
+
+SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc@mail.ru>
+
+Found programmer device: WinChipHead (WCH) - CH341A
+Device revision is 3.0.4
+Microwire EEPROM chip: 93c46, Size: 64 bytes, Org: 16 bits, fix addr len: Auto
+WRITE:
+Write addr = 0x0000000000000000, len = 0x0000000000000080
+Erase_EEPROM_3wire: Set address len 6 bits
+Write_EEPROM_3wire: Set address len 6 bits
+Written 100% [64] of [64] bytes
+Wrote [128] bytes to [93c46] EEPROM address 0x00000000
+Elapsed time: 1 seconds
+Status: OK
+VERIFY:
+Read addr = 0x0000000000000000, len = 0x0000000000000080
+Read_EEPROM_3wire: Set address len 6 bits
+Read 100% [64] of [64] bytes
+Read [128] bytes from [93c46] EEPROM address 0x00000000
+Elapsed time: 1 seconds
+Status: OK
+```
+
+6. 从文件写入并验证 SPI EEPROM Atmel AT25640B。
+
+```
+$ ./SNANDer -E 25640 -v -w test.bin
+
+SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc_at_mail.ru>
+
+Found programmer device: WinChipHead (WCH) - CH341A
+Device revision is 3.0.4
+SPI EEPROM chip: 25640, Size: 8192 bytes
+WRITE:
+Written addr = 0x0000000000000000, len = 0x0000000000002000
+Wrote 100% [8192] bytes to [25640] EEPROM address 0x00000000
+Elapsed time: 22 seconds
+Status: OK
+VERIFY:
+Read addr = 0x0000000000000000, len = 0x0000000000002000
+Read 100% [8192] bytes from [25640] EEPROM address 0x00000000
+Elapsed time: 2 seconds
+Status: OK
+```
+
+7. 使用页面大小从文件快速写入和验证 SPI EEPROM Atmel AT25640B。
+    （从芯片上的数据表中找出页面大小！！！）
+
+```
+$ ./SNANDer -E 25640 -v -w test.bin -s 32
+
+SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc_at_mail.ru>
+
+Found programmer device: WinChipHead (WCH) - CH341A
+Device revision is 3.0.4
+SPI EEPROM chip: 25640, Size: 8192 bytes
+Setting page size 32B for write.
+WRITE:
+Write addr = 0x0000000000000000, len = 0x0000000000002000
+Written 100% [8192] bytes to [25640] EEPROM address 0x00000000
+Elapsed time: 1 seconds
+Status: OK
+VERIFY:
+Read addr = 0x0000000000000000, len = 0x0000000000002000
+Read 100% [8192] bytes from [25640] EEPROM address 0x00000000
+Elapsed time: 2 seconds
+Status: OK
+```
+
+**支持的芯片**
+
+```
+SPI NAND Flash 支持列表:
+001. GIGADEVICE GD5F1GQ4UA
+002. GIGADEVICE GD5F1GQ4UB
+003. GIGADEVICE GD5F1GQ4UC
+004. GIGADEVICE GD5F1GQ4UE
+005. GIGADEVICE GD5F1GQ5UE
+006. GIGADEVICE GD5F1GQ5RE
+007. GIGADEVICE GD5F2GQ4UB
+008. GIGADEVICE GD5F2GQ4UE
+009. GIGADEVICE GD5F2GQ4UC
+010. GIGADEVICE GD5F4GQ4UB
+011. GIGADEVICE GD5F4GQ4UC
+012. ESMT F50D1G41LB(2M)
+013. ESMT F50L512
+014. ESMT F50L1G
+015. ESMT F50L1G41LB
+016. ESMT F50L2G41LB
+017. WINBOND W25N01GV
+018. WINBOND W25N01GW
+019. WINBOND W25N02KV
+020. WINBOND W25M02GV
+021. MXIC MX35LF1GE4AB
+022. MXIC MX35LF2GE4AB
+023. MXIC MX35LF2G14AC
+024. MXIC MX35LF2GE4AD
+025. ZENTEL A5U12A21ASC
+026. ZENTEL A5U1GA21BWS
+027. ETRON EM73C044SNB
+028. ETRON EM73C044SND
+029. ETRON EM73C044SNF
+030. ETRON EM73C044VCA
+031. ETRON EM73C044VCD
+032. ETRON EM73D044VCA
+033. ETRON EM73D044VCB
+034. ETRON EM73D044VCD
+035. ETRON EM73D044VCG
+036. ETRON EM73D044VCH
+037. ETRON EM73D044SNA
+038. ETRON EM73D044SNC
+039. ETRON EM73D044SND
+040. ETRON EM73D044SNF
+041. ETRON EM73E044SNA
+042. TOSHIBA TC58CVG0S3H
+043. TOSHIBA TC58CVG1S3H
+044. TOSHIBA TC58CVG2S0H
+045. KIOXIA TC58CVG2S0HRAIJ
+046. MICRON MT29F1G01
+047. MICRON MT29F2G01
+048. MICRON MT29F4G01
+049. HEYANG HYF1GQ4UAACAE
+050. HEYANG HYF2GQ4UAACAE
+051. HEYANG HYF2GQ4UHCCAE
+052. HEYANG HYF1GQ4UDACAE
+053. HEYANG HYF2GQ4UDACAE
+054. PN PN26G01A-X
+055. PN PN26G02A-X
+056. PN PN26Q01A-X
+057. ATO ATO25D1GA
+058. ATO ATO25D2GA
+059. ATO ATO25D2GB
+060. FM FM25S01
+061. FM FM25S01A
+062. FM FM25G01B
+063. FM FM25G02B
+064. FM FM25G02C
+065. FM FM25G02
+066. XTX XT26G02B
+067. XTX XT26G01C
+068. XTX XT26G01A
+069. XTX XT26G02A
+070. MIRA PSU1GS20BN
+071. BIWIN BWJX08U
+072. BIWIN BWET08U
+073. FORESEE FS35ND01GD1F1
+074. FORESEE FS35ND01GS1F1
+075. FORESEE FS35ND02GS2F1
+076. FORESEE FS35ND02GD1F1
+077. FORESEE FS35ND01GS1Y2
+078. FORESEE FS35ND02G-S3Y2
+079. FORESEE FS35ND04G-S2Y2
+080. DS DS35Q2GA
+081. DS DS35M2GA
+082. DS DS35Q1GA
+083. DS DS35M1GA
+084. FISON CS11G0T0A0AA
+085. FISON CS11G1T0A0AA
+086. FISON CS11G0G0A0AA
+087. TYM TYM25D2GA01
+088. TYM TYM25D2GA02
+089. TYM TYM25D1GA03
+090. XINCUN XCSP1AAWH-NT
+
+SPI NOR 闪存支持列表:
+001. AT26DF161
+002. AT25DF321
+003. A25L10PU
+004. A25L20PU
+005. A25L040
+006. A25LQ080
+007. A25L080
+008. A25LQ16
+009. A25LQ32
+010. A25L032
+011. A25LQ64
+012. ES25P10
+013. ES25P20
+014. ES25P40
+015. ES25P80
+016. ES25P16
+017. ES25P32
+018. ES25M40A
+019. ES25M80A
+020. ES25M16A
+021. DQ25Q64AS
+022. F25L016
+023. F25L16QA
+024. F25L032
+025. F25L32QA
+026. F25L064
+027. F25L64QA
+028. GD25Q20C
+029. GD25Q40C
+030. GD25Q80C
+031. GD25LQ80C
+032. GD25WD80C
+033. GD25WQ80E
+034. GD25Q16
+035. GD25LQ16C
+036. GD25WQ16E
+037. GD25Q32
+038. GD25LQ32E
+039. GD25WQ32E
+040. GD25Q64CSIG
+041. GD25Q128CSIG
+042. GD25Q256CSIG
+043. MX25L8005M
+044. MX25L1605D
+045. MX25L3205D
+046. MX25L6405D
+047. MX25L12805D
+048. MX25L25635E
+049. MX25L51245G
+050. YC25Q128
+051. FL016AIF
+052. FL064AIF
+053. S25FL016P
+054. S25FL032P
+055. S25FL064P
+056. S25FL128P
+057. S25FL129P
+058. S25FL256S
+059. S25FL512S
+060. S25FL116K
+061. S25FL132K
+062. S25FL164K
+063. EN25F16
+064. EN25Q16
+065. EN25QH16
+066. EN25Q32B
+067. EN25F32
+068. EN25F64
+069. EN25Q64
+070. EN25QA64A
+071. EN25QH64A
+072. EN25Q128
+073. EN25Q256
+074. EN25QA128A
+075. EN25QH128A
+076. GM25Q128A
+077. W25X05
+078. W25X10
+079. W25X20
+080. W25X40
+081. W25X80
+082. W25X16
+083. W25X32VS
+084. W25X64
+085. W25Q20CL
+086. W25Q20BW
+087. W25Q20EW
+088. W25Q80
+089. W25Q80BL
+090. W25Q16JQ
+091. W25Q16JM
+092. W25Q32BV
+093. W25Q32DW
+094. W25Q32JWIM
+095. W25Q64BV
+096. W25Q64DW
+097. W25Q128BV
+098. W25Q128FW
+099. W25Q256FV
+100. W25Q256JW
+101. W25Q256JWIM
+102. W25Q512JV
+103. W25Q512JVIM
+104. W25Q512NW
+105. W25Q512NWIM
+106. M25P05
+107. M25P10
+108. M25P20
+109. M25P40
+110. M25P80
+111. M25P16
+112. M25P32
+113. M25P64
+114. M25P128
+115. N25Q016A
+116. N25Q032A
+117. N25Q032A
+118. N25Q064A
+119. N25Q064A
+120. N25Q128A
+121. N25Q128A
+122. N25Q256A
+123. N25Q512A
+124. MT25QL64AB
+125. MT25QU64AB
+126. MT25QL128AB
+127. MT25QU128AB
+128. MT25QL256AB
+129. MT25QU256AB
+130. MT25QL512AB
+131. MT25QU512AB
+132. XM25QH10B
+133. XM25QH20B
+134. XM25QU41B
+135. XM25QH40B
+136. XM25QU80B
+137. XM25QH80B
+138. XM25QU16B
+139. XM25QH16C
+140. XM25QW16C
+141. XM25QH32B
+142. XM25QW32C
+143. XM25LU32C
+144. XM25QH32A
+145. XM25QH64C
+146. XM25LU64C
+147. XM25QW64C
+148. XM25QH64A
+149. XM25QH128A
+150. XM25QH128C
+151. XM25LU128C
+152. XM25QW128C
+153. XM25QH256C
+154. XM25QU256C
+155. XM25QW256C
+156. XM25QH512C
+157. XM25QU512C
+158. XM25QW512C
+159. MD25D20
+160. MD25D40
+161. ZB25VQ16
+162. ZB25LQ16
+163. ZB25VQ32
+164. ZB25LQ32
+165. ZB25VQ64
+166. ZB25LQ64
+167. ZB25VQ128
+168. ZB25LQ128
+169. LE25U20AMB
+170. LE25U40CMC
+171. BY25D05AS
+172. BY25D10AS
+173. BY25D20AS
+174. BY25D40AS
+175. BY25Q40BL
+176. BY25Q40BL
+177. BY25Q80BS
+178. BY25Q16BS
+179. BY25Q16BL
+180. BY25Q32BS
+181. BY25Q32AL
+182. BY25Q64AS
+183. BY25Q64AL
+184. BY25Q128AS
+185. BY25Q128EL
+186. BY25Q256ES
+187. XT25F04D
+188. XT25F08B
+189. XT25F08D
+190. XT25F16B
+191. XT25Q16D
+192. XT25F32B
+193. XT25F64B
+194. XT25Q64D
+195. XT25F128B
+196. XT25F128D
+197. PM25LQ016
+198. PM25LQ032
+199. PM25LQ064
+200. PM25LQ128
+201. IS25LQ010
+202. IS25LQ020
+203. IS25WP040D
+204. IS25LP080D
+205. IS25WP080D
+206. IS25LP016D
+207. IS25WP016D
+208. IS25LP032D
+209. IS25WP032D
+210. IS25LP064D
+211. IS25WP064D
+212. IS25LP128F
+213. IS25WP128F
+214. IS25LP256D
+215. IS25WP256D
+216. IS25LP256D
+217. IS25WP256D
+218. FM25W04
+219. FM25Q04
+220. FM25Q08
+221. FM25W16
+222. FM25Q16
+223. FM25W32
+224. FS25Q32
+225. FM25W64
+226. FS25Q64
+227. FM25W128
+228. FS25Q128
+229. FM25Q04A
+230. FM25M04A
+231. FM25Q08A
+232. FM25M08A
+233. FM25Q16A
+234. FM25M16A
+235. FM25Q32A
+236. FM25M32B
+237. FM25Q64A
+238. FM25M64A
+239. FM25Q128A
+240. PN25F16
+241. PN25F32
+242. PN25F64
+243. PN25F128
+244. P25D05H
+245. P25D10H
+246. P25D20H
+247. P25D40H
+248. P25D80H
+249. P25Q16H
+250. P25Q32H
+251. P25Q64H
+252. P25Q128H
+253. PY25Q128HA
+254. SK25P32
+255. SK25P64
+256. SK25P128
+257. ZD25Q16B
+258. ZD25Q32C
+259. ZD25LQ64
+260. ZD25Q64B
+261. ZD25LQ128
+262. PCT25VF010A
+263. PCT25VF020B
+264. PCT25VF040B
+265. PCT25VF080B
+266. PCT25VF016B
+267. PCT25VF032B
+268. PCT25VF064C
+269. PCT26VF016
+270. PCT26VF032
+
+I2C EEPROM 支持列表:
+001. 24c01
+002. 24c02
+003. 24c04
+004. 24c08
+005. 24c16
+006. 24c32
+007. 24c64
+008. 24c128
+009. 24c256
+010. 24c512
+011. 24c1024
+
+Microwire EEPROM 支持列表:
+001. 93c06
+002. 93c16
+003. 93c46
+004. 93c56
+005. 93c66
+006. 93c76
+007. 93c86
+008. 93c96
+
+SPI EEPROM 支持列表:
+001. 25010
+002. 25020
+003. 25040
+004. 25080
+005. 25160
+006. 25320
+007. 25640
+008. 25128
+009. 25256
+010. 25512
+011. 251024
+```
+
+**作者**
+
+最初由 [McMCC](https://github.com/McMCCRU/SNANDer) 编写，并根据 GNU GPL 2.0 版或更高版本的条款发布。 [Droid-MAX](https://github.com/Droid-MAX/) 进行的修改使其更容易构建 Windows。
+[by-JohnChen](https://github.com/by-JohnChen) 进行使用文档的中文翻译。
+
+**许可证**
+
+这是自由软件：您可以根据以下条款重新分发和/或修改它
+自由软件基金会发布的最新 GNU 通用公共许可证。
+
+分发此程序的目的是希望它有用，但不提供任何保证；
+甚至没有适销性或特定用途适用性的默示保证。
+有关更多详细信息，请参阅 GNU 通用公共许可证。
+
+您应该随该程序一起收到 GNU 通用公共许可证的副本。
+如果没有，请参阅 <http://www.gnu.org/licenses/>.
