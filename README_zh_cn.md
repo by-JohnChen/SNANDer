@@ -35,7 +35,7 @@ make -C src/
 
 **使用 Windows 编译**
 
-* 使用PowerShell 在 Windows上安装 `choco` 包管理工具
+* 使用 `PowerShell` 在 Windows上安装 `choco` 包管理工具
 
 ```
 iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
@@ -63,7 +63,7 @@ choco install mingw-w64 -y
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-* 使用 homebrew 安装依赖
+* 使用 `homebrew` 安装依赖
 
 ```
 brew install gcc wget make libusb-1.0-dev -y
