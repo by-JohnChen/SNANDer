@@ -66,7 +66,7 @@ choco install mingw-w64 -y
 * 使用 `homebrew` 安装依赖
 
 ```
-brew install gcc wget make libusb-1.0-dev -y
+brew install gcc wget make -y
 ```
 
 * 安装必要工具后, 编译 `snander` 只需执行一条简单的脚本命令:
