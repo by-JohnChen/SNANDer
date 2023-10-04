@@ -41,7 +41,7 @@ make -C src/
 iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
 ```
 
-* 在 Windows 上安装依赖
+* 使用 choco 安装依赖
 
 ```
 choco install mingw-w64 -y
@@ -63,7 +63,7 @@ choco install mingw-w64 -y
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-* 在 MacOS 上安装依赖
+* 使用 homebrew 安装依赖
 
 ```
 brew install gcc wget make libusb-1.0-dev -y
