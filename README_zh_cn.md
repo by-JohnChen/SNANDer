@@ -10,7 +10,7 @@ SNANDer - 串口 Nor/nAND/Eeprom 编程软件 (基于 CH341A)
 * gcc/mingw-w64, wget, make, and libusb-1.0-dev (via apt Command Line Tools)
 
 **在Linux上编译**
-在Debian/Ubuntu上安装依赖
+* 在Debian/Ubuntu上安装依赖
 
 ```
 sudo apt-get install gcc wget make libusb-1.0-dev
@@ -43,12 +43,12 @@ make -C src/
 编译成功后，将在 `build` 文件夹中找到生成的可执行文件，包括x86和x64二进制文件。
 
 **使用 MacOS 编译**
-在MacOS上安装 homebrew 包管理工具
+* 在MacOS上安装 homebrew 包管理工具
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-在MacOS上安装依赖
+* 在MacOS上安装依赖
 
 ```
 brew install gcc wget make libusb-1.0-dev
