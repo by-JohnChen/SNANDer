@@ -62,7 +62,7 @@ brew install gcc wget make libusb-1.0-dev
 
 编译成功后，可以在 `build` 文件夹中找到生成的可执行文件。
 
-**例子**
+**用法**
 
 使用 `snander` 是直截了当的:
 
@@ -91,9 +91,9 @@ SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc@mail.ru>
  -v             verify after write on chip
 ```
 
-For example:
+范例:
 
-1. Get Flash info.
+1. 获取 Flash 信息.
 
 ```
 $ ./SNANDer -i
@@ -110,7 +110,7 @@ Detected SPI NAND Flash: MXIC MX35LF2G, Flash Size: 256 MB
 $
 ```
 
-2. Full erase flash with disable internal ECC check. Without OOB, page size 2112 bytes.
+2. 完全擦除闪存，禁用内部ECC检查。无OOB，页面大小为2112字节
 
 ```
 $ ./SNANDer -d -e
@@ -133,7 +133,7 @@ Status: OK
 $
 ```
 
-3. Write and verify flash with disable internal ECC check. Without OOB, page size 2112 bytes.
+3. 使用禁用内部ECC检查的方式写入并验证闪存。无OOB，页面大小为2112字节。
 
 ```
 $ ./SNANDer -d -v -w ecc_2Gb_2K_64_flashimage_rfb1_ac2600.bin
@@ -160,7 +160,7 @@ Status: OK
 $
 ```
 
-4. Read Microwire EEPROM Atmel 93C46 and save file.
+4. 读取Microwire EEPROM Atmel 93C46并保存文件。
 
 ```
 $ ./SNANDer -E 93c46 -r test.bin
@@ -179,7 +179,7 @@ Elapsed time: 0 seconds
 Status: OK
 ```
 
-5. Write and verify Microwire EEPROM Atmel 93C46 from file.
+5. 从文件中写入并验证Microwire EEPROM Atmel 93C46。
 
 ```
 $ ./SNANDer -E 93c46 -w test.bin -v
@@ -206,7 +206,7 @@ Elapsed time: 1 seconds
 Status: OK
 ```
 
-6. Write and verify SPI EEPROM Atmel AT25640B from file.
+6. 从文件中写入并验证SPI EEPROM Atmel AT25640B。
 
 ```
 $ ./SNANDer -E 25640 -v -w test.bin
@@ -228,8 +228,7 @@ Elapsed time: 2 seconds
 Status: OK
 ```
 
-7. Fast write and verify SPI EEPROM Atmel AT25640B from file with use page size.
-   (Find out page size from datasheet on chip!!!)
+7. 使用页面大小快速写入并验证SPI EEPROM Atmel AT25640B文件。 （请从芯片数据手册中查找页面大小！！！）
 
 ```
 $ ./SNANDer -E 25640 -v -w test.bin -s 32
@@ -252,7 +251,7 @@ Elapsed time: 2 seconds
 Status: OK
 ```
 
-**Supported Chips**
+**芯片支持列表**
 
 ```
 SPI NAND Flash Support List:
@@ -341,7 +340,7 @@ SPI NAND Flash Support List:
 083. TYM TYM25D1GA03
 084. XINCUN XCSP1AAWH-NT
 
-SPI NOR Flash Support List:
+SPI NOR Flash 支持列表:
 001. AT25DF321
 002. AT26DF161
 003. F25L016
@@ -475,7 +474,7 @@ SPI NOR Flash Support List:
 131. P25Q64H
 132. P25Q128H
 
-I2C EEPROM Support List:
+I2C EEPROM 支持列表:
 001. 24c01
 002. 24c02
 003. 24c04
@@ -488,7 +487,7 @@ I2C EEPROM Support List:
 010. 24c512
 011. 24c1024
 
-Microwire EEPROM Support List:
+Microwire EEPROM 支持列表:
 001. 93c06
 002. 93c16
 003. 93c46
@@ -498,7 +497,7 @@ Microwire EEPROM Support List:
 007. 93c86
 008. 93c96
 
-SPI EEPROM Support List:
+SPI EEPROM 支持列表t:
 001. 25010
 002. 25020
 003. 25040
@@ -512,11 +511,11 @@ SPI EEPROM Support List:
 011. 251024
 ```
 
-**Author**
+**作者**
 
-Originally written by [McMCC](https://github.com/McMCCRU/SNANDer) and released under the terms of the GNU GPL, version 2.0, or later. Modifications by [Droid-MAX](https://github.com/Droid-MAX/) to make it more easier build for Windows.
+最初由 [McMCC](https://github.com/McMCCRU/SNANDer）并根据GNU GPL 2.0或更高版本发布。 [Droid-MAX](https://github.com/Droid-MAX/）的修改使其更容易在Windows上编译。由[JohnChen](https://github.com/by-JohnChen)添加简体中文翻译。
 
-**License**
+**许可**
 
 This is free software: you can redistribute it and/or modify it under the terms of
 the latest GNU General Public License as published by the Free Software Foundation.
