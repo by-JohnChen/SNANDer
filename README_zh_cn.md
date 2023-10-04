@@ -513,7 +513,9 @@ SPI EEPROM 支持列表t:
 
 **作者**
 
-最初由 [McMCC](https://github.com/McMCCRU/SNANDer）并根据GNU GPL 2.0或更高版本发布。 [Droid-MAX](https://github.com/Droid-MAX/）的修改使其更容易在Windows上编译。由[JohnChen](https://github.com/by-JohnChen)添加简体中文翻译。
+最初由 [McMCC](https://github.com/McMCCRU/SNANDer）并根据GNU GPL 2.0或更高版本发布。
+[Droid-MAX](https://github.com/Droid-MAX/）的修改使其更容易在Windows上编译。
+[JohnChen](https://github.com/by-JohnChen)添加简体中文翻译。
 
 **许可**
 
