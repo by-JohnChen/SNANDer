@@ -1,6 +1,6 @@
 SNANDer
 ===
-*[中文支持](./README_zh_cn.md)
+[中文支持](./README_zh_cn.md)
 
 SNANDer - Serial Nor/nAND/Eeprom programmeR (based on CH341A)
 
