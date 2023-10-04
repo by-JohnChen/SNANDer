@@ -10,20 +10,21 @@ SNANDer - 串口 Nor/nAND/Eeprom 编程软件 (基于 CH341A)
 * gcc/mingw-w64, wget, make, and libusb-1.0-dev (via apt Command Line Tools)
 
 **在Linux上编译**
-* 安装依赖
+在Debian/Ubuntu上安装依赖
+
 ```
 sudo apt-get install gcc wget make libusb-1.0-dev
 ```
 
-安装gcc和必要工具后，编译snander只需运行一条命令：
+安装gcc和必要工具后，编译 `snander` 只需执行一条简单的命令：
 
 ```
 make -C src/
 ```
 
-After successful compilation, the target executable file will be generated in `src` folder.
+编译成功后，可以在“src”文件夹中找到生成的二进制文件。
 
-Or you can choose static compile, building `snander` statically is as simple as running the command:
+或者，您也可以选择静态编译，静态编译 `snander` 只需执行一条简单的命令:
 
 ```
 ./build-for-linux.sh
