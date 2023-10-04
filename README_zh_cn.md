@@ -22,39 +22,49 @@ sudo apt-get install gcc wget make libusb-1.0-dev
 make -C src/
 ```
 
-编译成功后，可以在“src”文件夹中找到生成的二进制文件。
+编译成功后，可以在 `src`文件夹中找到生成的可执行文件。
 
-或者，您也可以选择静态编译，静态编译 `snander` 只需执行一条简单的命令:
+或者，您也可以选择静态编译，静态编译 `snander` 只需执行一条简单的脚本命令:
 
 ```
 ./build-for-linux.sh
 ```
 
-After successful compilation, the target executable file will be generated in the `build` folder.
+编译成功后，可以在 `build` 文件夹中找到生成的可执行文件。
 
-**Compiling for Windows**
+**使用 Windows 编译**
 
-After installing the mingw-w64 and necessary tools, building `snander` is as simple as running the included script:
+安装 mingw-w64 和必要工具后, 编译 `snander` 只需执行一条简单的脚本命令:
 
 ```
 ./build-for-windows.sh
 ```
 
-After successful compilation, the target executable file will be generated in the `build` folder, include x86 and x64 binaries.
+编译成功后，将在 `build` 文件夹中找到生成的可执行文件，包括x86和x64二进制文件。
 
-**Compiling for MacOS**
+**使用 MacOS 编译**
+在MacOS上安装 homebrew 包管理工具
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
-After installing the necessary tools, building `snander` is as simple as running the included script:
+在MacOS上安装依赖
+
+```
+brew install gcc wget make libusb-1.0-dev
+```
+
+安装必要工具后, 编译 `snander` 只需执行一条简单的脚本命令:
 
 ```
 ./build-for-darwin.sh
 ```
 
-After successful compilation, the target executable file will be generated in the `build` folder.
+编译成功后，可以在 `build` 文件夹中找到生成的可执行文件。
 
-**Usage**
+**例子**
 
-Using `snander` is straightforward:
+使用 `snander` 是直截了当的:
 
 ```
 SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc@mail.ru>
