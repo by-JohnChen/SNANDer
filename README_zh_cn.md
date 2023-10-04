@@ -25,7 +25,7 @@ make -C src/
 
 编译成功后，可以在 `src`文件夹中找到生成的可执行文件。
 
-或者，您也可以选择静态编译，静态编译 `snander` 只需执行一条简单的脚本命令:
+* 或者，您也可以选择静态编译，静态编译 `snander` 只需执行一条简单的脚本命令:
 
 ```
 ./build-for-linux.sh
@@ -40,13 +40,14 @@ make -C src/
 ```
 iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
 ```
+
 * 在 Windows 上安装依赖
 
 ```
 choco install mingw-w64 -y
 ```
 
-安装 mingw-w64 和必要工具后, 编译 `snander` 只需执行一条简单的脚本命令:
+* 安装 mingw-w64 和必要工具后, 编译 `snander` 只需执行一条简单的脚本命令:
 
 ```
 ./build-for-windows.sh
@@ -68,7 +69,7 @@ choco install mingw-w64 -y
 brew install gcc wget make libusb-1.0-dev -y
 ```
 
-安装必要工具后, 编译 `snander` 只需执行一条简单的脚本命令:
+* 安装必要工具后, 编译 `snander` 只需执行一条简单的脚本命令:
 
 ```
 ./build-for-darwin.sh
