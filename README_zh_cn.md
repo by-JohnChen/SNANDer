@@ -1,15 +1,15 @@
 SNANDer
 ===
 
-SNANDer - Serial Nor/nAND/Eeprom programmeR (based on CH341A)
+SNANDer - 串口 Nor/nAND/Eeprom 编程软件 (基于 CH341A)
 
 ![ch341a-nextProgrammer](https://raw.githubusercontent.com/Droid-MAX/SNANDer/master/photos/ch341a-nextProgrammer.jpg)
 
-**Requirements**
+**依赖**
 
 * gcc/mingw-w64, wget, make, and libusb-1.0-dev (via apt Command Line Tools)
 
-**Compiling for Linux**
+**在Linux上编译**
 
 After installing the gcc and necessary tools, building `snander` is as simple as running the command:
 
