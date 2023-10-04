@@ -14,7 +14,7 @@ SNANDer - 串口 Nor/nAND/Eeprom 编程软件 (基于 CH341A)
 * 在Debian/Ubuntu上安装依赖
 
 ```
-sudo apt-get install gcc wget make libusb-1.0-dev
+sudo apt-get install gcc wget make libusb-1.0-dev -y
 ```
 
 安装gcc和必要工具后，编译 `snander` 只需执行一条简单的命令：
@@ -35,6 +35,17 @@ make -C src/
 
 **使用 Windows 编译**
 
+* 使用PowerShell 在 Windows上安装 `choco` 包管理工具
+
+```
+iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
+```
+* 在 Windows 上安装依赖
+
+```
+choco install mingw-w64 -y
+```
+
 安装 mingw-w64 和必要工具后, 编译 `snander` 只需执行一条简单的脚本命令:
 
 ```
@@ -45,16 +56,16 @@ make -C src/
 
 **使用 MacOS 编译**
 
-* 在MacOS上安装 homebrew 包管理工具
+* 在 MacOS 上安装 `homebrew` 包管理工具
 
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-* 在MacOS上安装依赖
+* 在 MacOS 上安装依赖
 
 ```
-brew install gcc wget make libusb-1.0-dev
+brew install gcc wget make libusb-1.0-dev -y
 ```
 
 安装必要工具后, 编译 `snander` 只需执行一条简单的脚本命令:
