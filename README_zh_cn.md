@@ -64,7 +64,7 @@ brew install gcc wget make libusb-1.0-dev
 
 **用法**
 
-使用 `snander` 是直截了当的:
+使用 `snander` 一目了然:
 
 ```
 SNANDer - Serial Nor/nAND/Eeprom programmeR v.1.7.8 by McMCC <mcmcc@mail.ru>
