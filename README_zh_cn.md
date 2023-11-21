@@ -9,7 +9,7 @@ SNANDer - 串口 Nor/nAND/Eeprom 编程软件 (基于 CH341A)
 
 * gcc/mingw-w64, wget, make,和 libusb-1.0-dev (通过 apt 命令行工具)
 
-**使用 Linux 上编译**
+**使用 Linux 编译**
 
 * 在Debian/Ubuntu上安装依赖
 
